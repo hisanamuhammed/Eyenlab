@@ -1,0 +1,126 @@
+{% extends 'base.html' %}  
+
+{% load static %}
+
+{% block content %}
+
+<!-- ****** Checkout Area Start ****** -->
+<div class="checkout_area section_padding_100" style="min-height:84vh; background-color: #F8F8F8;">
+    <div class="container" >
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-5" style="min-height:84vh; background-color: #FFF;">
+                <!-- .......form starts...... -->
+                <form action="{% url 'place_order' %}" method="post">  
+                {% csrf_token %}
+                <div class="checkout_details_area mt-50 clearfix">
+                    <div class="cart-page-heading">
+                        <h5>Billing Address</h5>
+                        <p>Enter your cupone code</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name">First Name <span>*</span></label>
+                            <input type="text" class="form-control" name="firstname" id="first_name" value="{{ user.first_name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name">Last Name <span>*</span></label>
+                            <input type="text" class="form-control" name="lastname" id="last_name" value="{{ user.last_name }}" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="street_address">Address <span>*</span></label>
+                            <input type="text" class="form-control mb-3" name="address_line_1" id="address_line_1" value="{{ user.address_line_1 }}" >
+                            <input type="text" class="form-control" name="address_line_2" id="address_line_2" value="{{ user.address_line_2 }}">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="postcode">Postcode <span>*</span></label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ user.zipcode }}">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="city">Town/City <span>*</span></label>
+                            <input type="text" class="form-control" name="city" id="city" value="{{ user.city }}">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="state">State <span>*</span></label>
+                            <input type="text" class="form-control" name="state" id="state" value="{{ user.state }}">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="phone_number">Phone No <span>*</span></label>
+                            <input type="number" class="form-control" name="phone_number" id="phone_number" min="0" value="{{ user.phone_number }}">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="email_address">Email Address <span>*</span></label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}">
+                        </div>
+
+                        <div class="col-12">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6 col-lg-7 ml-lg-auto">
+                <div class="order-details-confirmation" style="min-height:84vh; background-color: #FFF;">
+
+                    <div class="cart-page-heading">
+                        <h5>Your Order</h5>
+                        <p>The Details</p>
+                    </div>
+
+                    <div class="cart-table clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <td class="cart_product_img d-flex align-items-center">
+                                        <a href="{{ cart_item.product.get_url }}"><img src="{{ cart_item.product.images.url }}" alt="Product"></a>
+                                        <h6>{{ cart_item.product.product_name }}</h6>
+                                    </td>
+                                    {% comment %} <td class="update-checkout w-50 text-right"> {% endcomment %}
+                                        {% comment %} <span><a href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a></span> {% endcomment %}
+                                    {% comment %} </td>     {% endcomment %}
+                                    <td class="price"><span>₹ {{ cart_item.product.price }}</span></td>
+                                    <td class="qty">
+                                        <div class="quantity">
+                                            {% comment %} <span class="qty-minus"><a href="{% url 'remove_cart' cart_item.product.id %}"><i class="fa fa-minus" aria-hidden="true"></i></a></span> {% endcomment %}
+                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="99" name="quantity" value="{{ cart_item.quantity }}" >
+                                            {% comment %} <span class="qty-plus"><a href="{% url 'add_cart' cart_item.product.id %}"><i class="fa fa-plus" aria-hidden="true"></i></a></span> {% endcomment %}
+                                        </div>
+                                    </td>
+                                    <td class="total_price"><span>₹ {{ cart_item.sub_total }} </span></td>   
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <ul class="order-details-form mb-4">
+                        <li><span>Subtotal</span> <span>₹ {{ total }}</span></li>
+                        <li><span>Tax</span> <span>₹ {{ tax }}</span></li>
+                        <li><span>Shipping</span> <span>Free</span></li>
+                        <li><span>Total</span> <span>₹ {{ grand_total }}</span></li>
+                    </ul> 
+
+                    <button type='submit' class="btn karl-checkout-btn">Place Order</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- ****** Checkout Area End ****** -->
+
+{% endblock %}

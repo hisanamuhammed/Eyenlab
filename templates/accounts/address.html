@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+    {% include 'includes/dashboard_sidebar.html' %}
+
+    {% for ad in add %}
+    <div class="card" style="width: 18rem;">
+        <h5 class="card-header">Billing Address {{forloop.counter}}</h5>
+        <div class="card-body">
+        <h5 class="card-title">{{ad.first_name}}</h5>
+        <p class="card-text mb-0">{{ad.address_1}}</p> <!--displaying   -->
+        <p class="card-text mb-0">{{ad.address_2}}</p>
+        <p class="card-text mb-0">{{ad.city}}, {{order.state}}</p>
+        <p class="card-text mb-0">{{ad.pin}}</p>
+        {% comment %} <p class="card-text mb-0"><i class="fa fa-envelope" aria-hidden="true"></i> {{add.email}}</p> {% endcomment %}
+        {% comment %} <p class="card-text mb-0"><i class="fa fa-phone" aria-hidden="true"></i> {{add.phone_number}}</p> {% endcomment %}
+        </div>
+    </div> 
+    {% endfor %}
+    
+    </div> 
+</div> 
+
+{%endblock%}

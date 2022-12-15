@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="top-discount-area d-md-flex align-items-center">
+    <!-- Single Discount Area -->
+    <div class="single-discount-area">
+        <h5>Free Shipping &amp; Returns</h5>
+        <h6><a href="#">BUY NOW</a></h6>
+    </div>
+    <!-- Single Discount Area -->
+    <div class="single-discount-area">
+        <h5>WEAR THE TREND</h5>
+        <h6>Our hottest collections</h6>
+    </div>
+    <!-- Single Discount Area -->
+    <div class="single-discount-area">
+        <h5>Find the perfect fit</h5>
+        <h6>Buy the best eyewear from Eyenlab</h6>
+    </div>
+</section>
+
+<!-- <<<<<<<<<<<<<<<<<<<< Breadcumb Area Start <<<<<<<<<<<<<<<<<<<< -->
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ol class="breadcrumb d-flex align-items-center">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'store' %}">Shop</a></li>
+                    <li class="breadcrumb-item active">Glass</li>
+                </ol>
+                <!-- btn -->
+                <a href="{% url 'store' %}" class="backToHome d-block"><i class="fa fa-angle-double-left"></i> Back to Shop</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <<<<<<<<<<<<<<<<<<<< Breadcumb Area End <<<<<<<<<<<<<<<<<<<< -->
+
+<!-- <<<<<<<<<<<<<<<<<<<< Single Product Details Area Start >>>>>>>>>>>>>>>>>>>>>>>>> -->
+<section class="single_product_details_area section_padding_0_100">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+                <div class="single_product_thumb">
+                    <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                            
+                        <ol class="carousel-indicators">
+                            {% for i in product_gallery %}
+                            <li data-target="#product_details_slider" data-slide-to="0" style="text-indent: 0px; thumb">
+                                <a href="{{i.image.url}}">
+                                    <img class="p-img" src="{{i.image.url}}" alt="Product Image">
+                                </a>
+                            </li> 
+                            {% endfor %}
+                        </ol>
+                        <!--image-->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{ single_product.images.url }}" alt="First slide">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="single_product_desc">
+
+                    <h4 class="title"><a href="#"> {{ single_product.product_name }} </a></h4>
+
+                    <h4 class="price"> ₹ {{ single_product.price }} </h4>
+
+                    {% if single_product.stock <= 0 %}
+                        <p class="available">Available: <span class="text-muted  text-danger">Out of stock</span></p>
+                    {% else %}
+                    <p class="available">Available: <span class="text-muted">In Stock</span></p>
+                    {% endif %}
+
+                    <div class="widget size mb-50">
+                        <div class="widget-desc">
+                            <ul>
+                                    {% comment %} <li><a href="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</a></li> {% endcomment %}
+                                    {% comment %} <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option> {% endcomment %}
+                                    {% comment %} <li><a href="#">S</a></li>
+                                    <li><a href="#">M</a></li>
+                                    <li><a href="#">L</a></li>  {% endcomment %}
+                                    {% comment %} <li><a href="#">38</a></li>
+                                    <li><a href="#">40</a></li>
+                                    <li><a href="#">42</a></li> {% endcomment %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart Form -->
+
+                    <div>
+                    <form action="{% url 'add_cart' single_product.id %}" class="cart clearfix mb-50 d-flex" method="post">
+                        {% csrf_token %}
+
+                        {% for cart_item in cart_items %}
+                        <div class="quantity">
+
+                            <span class="qty-minus"><a href="{% url 'remove_cart' cart_item.product.id %}"><i class="fa fa-minus" aria-hidden="true"></i></a></span>
+                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="99" name="quantity" value="{{ cart_item.quantity }}" >
+                            <span class="qty-plus"><a href="{% url 'add_cart' cart_item.product.id %}"><i class="fa fa-plus" aria-hidden="true"></i></a></span>
+                           
+                        </div>
+                        {% endfor %} <!-- this is not working -->
+
+                        <hr>
+
+                        <!-- Variation dropdown --> 
+
+                        <div class="quantity">
+                          <div class="item-option-select">
+                            <h6>Select Color</h6>
+                            <select name="color" class="form-control" style="background-color: #B8B8B8;
+                            border: medium none;
+                            color: #fff;
+                            font-size: 14px;
+                            height: 40px;
+                            width: 100px;
+                            cursor: pointer;
+                            border-radius: 0"> <!--required-->
+                                <option value="" disabled selected>Select</option>
+                                {% for i in single_product.variation_set.colors %}
+                                    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                        </div>&emsp; &emsp;
+
+                        <div class="quantity">
+                            <div class="item-option-select">
+                            <h6>Select Size</h6>
+                              <select name="size" class="form-control" style="background-color: #B8B8B8;
+                              border: medium none;
+                              color: #fff;
+                              font-size: 14px;
+                              height: 40px;
+                              width: 100px;
+                              cursor: pointer;
+                              border-radius: 0"> <!--required -->
+                                  <option value="" disabled selected>Select</option>
+                                  {% for i in single_product.variation_set.sizes %}
+                                      <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+                        </div>
+                    </div>                                            
+                        
+                        {% if single_product.stock <= 0 %}
+                        <h5 class="text-danger">Out of stock</h5>
+                        {% else %}
+                        <button type="submit" name="addtocart" value="5" class="d-block" 
+                        style="background-color: #ff084e;
+                        border: medium none;
+                        color: #fff;
+                        font-size: 14px;
+                        height: 40px;
+                        text-transform: uppercase;
+                        width: 150px;
+                        cursor: pointer;
+                        border-radius: 0;" >Add to cart</a></button>
+                        {% endif %}
+        
+                    </form>
+                    <hr>
+                    <hr>
+                    <div id="accordion" role="tablist">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Information</a>
+                                </h6>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>{{ single_product.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <<<<<<<<<<<<<<<<<<<< Single Product Details Area End >>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+{% endblock %}
+
+

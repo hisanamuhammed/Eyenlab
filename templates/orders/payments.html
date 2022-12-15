@@ -1,0 +1,274 @@
+{% extends 'base.html' %}  
+
+{% load static %}
+
+{% block content %}
+
+<div class="container" >
+  <div class="row">
+ {% comment %}            
+            <!-- Coupon starts -->
+            {% comment %}<div class="col-lg-8">
+
+                <div class="card mb-4 accordion" id="accordionExample">
+                <div class="card body accordion-item">
+                    <h4 class="accordion-header" id="headingOne">
+                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Coupon and Available offers
+                    </button>
+                    </h4>
+                    <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <div class="form-outline d-flex">
+                        <input type="text" id="form1" class="form-control" name="coupon_code"/>
+                        <label class="form-label" for="form1">Enter code</label>
+                        <button class="btn btn-dark" type="button" id="apply_coupon">Apply</button>
+                        </div>
+                    </div>
+                    </div>
+                    {% comment %} <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    data-mdb-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="form-outline d-flex">
+                        <input type="text" id="form1" class="form-control" name="coupon_code"/>
+                        <label class="form-label" for="form1">Enter code</label>
+                        <button class="btn btn-dark" type="button" id="apply_coupon">Apply</button>
+                        </div>
+                    </div>
+                    </div> {% endcomment %}
+                {% comment %} </div>
+                </div>
+                
+                <div class="card mb-4 accordion" id="accordionExample">
+                <div class="card body accordion-item">
+                </div>
+                </div>
+            </div> {% endcomment %}
+            <!-- Coupon end -->
+
+          <div class="col-12 col-md-6 col-lg-7">
+            
+            
+            <div class="mt-70">
+                <div class="order-details-confirmation" style="min-height:84vh; background-color: #FFF;">
+
+                    <div class="cart-page-heading">
+                        <h5>Your Order</h5>
+                        <p>The Details</p>
+                    </div>
+
+                    <div class="card">
+                        <h6>Billing Address</h6>
+                        <div class="card-body">
+                          <p class="card-text mb-0">{{ order.full_name }}</p>
+                          <p class="card-text mb-0">{{ order.full_address }}</p>
+                          <p class="card-text mb-0">{{ order.city }} {{ order.state }}</p>
+                          <p class="card-text mb-0">{{ order.zipcode }}</p>
+                        </div>
+                    </div>
+
+                    <ul class="order-details-form mb-10">
+                        <li></li>
+                    </ul>
+
+                    <div class="cart-table clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    {% comment %} <th></th> {% endcomment %}
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <td class="cart_product_img d-flex align-items-center">
+                                        <a href="{{ cart_item.product.get_url }}"><img src="{{ cart_item.product.images.url }}" alt="Product"></a>
+                                        <h6>{{ cart_item.product.product_name }}</h6>
+                                        <p class="text-muted small">
+                                            {% if cart_item.variations.all %}
+                                            {% for variation in cart_item.variations.all %}
+                                                {{ variation.variation_category | capfirst }} : {{ variation.variation_value }}<br>
+                                            {% endfor %} 
+                                            {% endif %}
+                                        </p>
+                                    </td>
+                                    {% comment %} <td class="update-checkout w-50 text-right"> {% endcomment %}
+                                        {% comment %} <span><a href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a></span> {% endcomment %}
+                                    {% comment %} </td>     {% endcomment %}
+                                    <td class="price"><span>₹ {{ cart_item.product.price }}</span></td>
+                                    <td class="qty">
+                                        <div class="quantity">
+                                            {% comment %} <span class="qty-minus"><a href="{% url 'remove_cart' cart_item.product.id %}"><i class="fa fa-minus" aria-hidden="true"></i></a></span> {% endcomment %}
+                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="99" name="quantity" value="{{ cart_item.quantity }}" >
+                                            {% comment %} <span class="qty-plus"><a href="{% url 'add_cart' cart_item.product.id %}"><i class="fa fa-plus" aria-hidden="true"></i></a></span> {% endcomment %}
+                                        </div>
+                                    </td>
+                                    <td class="total_price"><span>₹ {{ cart_item.sub_total }} </span></td>   
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <ul class="order-details-form mb-4">
+                        {% comment %} <li><span>Product</span> <span>Total</span></li>
+                        <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li> {% endcomment %}
+                        <li><span>Subtotal</span> <span>₹ {{ total }}</span></li>
+                        <li><span>Tax</span> <span>₹ {{ tax }}</span></li>
+                        <li><span>Shipping</span> <span>Free</span></li>
+                        <li><span>Total</span> <span>₹ {{ grand_total }}</span></li>
+                    </ul> 
+
+                    <h6>Payment method</h6>
+                    <div id="accordion" role="tablist" class="mb-4">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>RazorPay</a>
+                                </h6>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% comment %} <button type='submit' class="btn karl-checkout-btn">Place Order</button> {% endcomment %}
+                    </form>
+                    {% comment %} <a href="#" class="btn karl-checkout-btn">Place Order</a> {% endcomment %}
+                </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+            <!-- Coupon Start-->
+            <div>
+              <div class="coupon-code-area mt-70">
+                  <div class="cart-page-heading">
+                      <h5>Cupon code</h5>
+                      <p>Enter your cupone code</p>
+                  </div>
+                  <form action="#">
+                      <input type="text" id="form1" name="coupon_code"/ placeholder="#569ab15">
+                      <button type="button" id="apply_coupon">Apply</button>
+                  </form>
+              </div>
+              <div class="card mb-4 accordion" id="accordionExample">
+                <div class="card body accordion-item">
+                </div>
+              </div>
+            </div>
+            <!--Coupon end-->
+            <div class="order-details-confirmation" style="background-color: #FFF;">
+              <!-- col.// -->
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                        <dt>Subtotal:</dt>
+                        <dd class="text-right">₹{{ total }}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                        <dt>Tax:</dt>
+                        <dd class="text-right">₹{{ tax }}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                        <dt>Total:</dt>
+                        <dd class="text-right text-dark b">
+                            <strong>₹{{ grand_total }}</strong>
+                        </dd>
+                        </dl>
+                        <hr />
+                        <p class="text-center mb-3">
+                        <img src="{% static 'img/bg-img/payments.png' %}" alt="payment image" height="26" />
+                        </p>
+
+                        <!-- RazorPay Section -->
+                        {% if payment %}
+                        <form action="{% url 'payment_status' %}" method="POST">
+                            <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="{{razorpay_merchant_key}}"
+                            data-amount="{{ payment.amount }}"
+                            data-currency="INR"
+                            data-order_id="{{ payment.id }}"
+                            data-buttontext="Make Payment"
+                            data-name=""
+                            data-description="product"
+                            data-image=""
+                            data-prefill.name="{{ order.full_name }}"
+                            data-prefill.email="{{user.email}}"
+                            data-theme.color="#3167eb"
+                        ></script>
+                        <input type="hidden" custom="Hidden Element" name="hidden">
+                        </form>
+                        {% endif %}
+
+                        <!-- add style to payment button -->
+                        <script>
+                            var element = document.querySelector('.razorpay-payment-button');
+                            element.className += ' btn btn-dark btn-block';
+                        </script>
+
+                        <!-- RazorPay Section End -->
+
+                        {% comment %} <div id="paypal-button-container">
+                            
+                            <!--paypal button-->
+                        </div> {% endcomment %}
+
+                    </div>
+                </div>
+            </div>
+          </div> <!--Razorpay div end-->
+        
+<!-- ****** Checkout Area End ****** -->
+<!--paypal payment-->
+{% comment %} <script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        style: {
+            color:  'blue',
+            shape:  'rect',
+            label:  'pay',
+            height: 40
+        },
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '88.44'
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Successful capture! For demo purposes:
+                console.log(details);
+                
+                alert('Transaction completed by '+ details.payer.name.given_name + '!');
+
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script> {% endcomment %}
+
+  </div>
+</div>
+
+{% endblock %}

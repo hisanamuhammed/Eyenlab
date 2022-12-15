@@ -1,0 +1,77 @@
+{% load static %}
+<!-- ****** Footer Area Start ****** -->
+<footer class="footer_area">
+    <div class="container">
+        <div class="row">
+            <!-- Single Footer Area Start -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="single_footer_area">
+                    <div class="footer-logo">
+                        <img src="{% static 'img/core-img/logo3.png' %}" alt="">
+                    </div>
+                    <div class="copywrite_text d-flex align-items-center">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Eyenlab &copy;<script>document.write(new Date().getFullYear());</script> 
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Footer Area Start -->
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                <div class="single_footer_area">
+                    <ul class="footer_widget_menu">
+                        <li><a href="{% url 'store' %}">Shop</a></li>
+                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                        {% comment %} <li><a href="#">Faq</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Contact</a></li> {% endcomment %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Single Footer Area Start -->
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                <div class="single_footer_area">
+                    <ul class="footer_widget_menu">
+                        <li><a href="{% url 'dashboard' %}">My Account</a></li>
+                        <li><a href="{% url 'my_orders' %}">My orders</a></li>
+                        {% comment %} <li><a href="#">Our Policies</a></li>
+                        <li><a href="#">Afiliates</a></li> {% endcomment %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Single Footer Area Start -->
+            <div class="col-12 col-lg-5">
+                <div class="single_footer_area">
+                    <div class="footer_heading mb-30">
+                        {% comment %} <h6>Subscribe to our newsletter</h6> {% endcomment %}
+                    </div>
+                    <div class="subscribtion_form">
+                        <form action="#" method="post">
+                            {% comment %} <input type="email" name="mail" class="mail" placeholder="Your email here"> {% endcomment %}
+                            {% comment %} <button type="submit" class="submit">Subscribe</button> {% endcomment %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+
+        <!-- Footer Bottom Area Start -->
+        <div class="footer_bottom_area">
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer_social_area text-center">
+                        <a href="https://t.me/hisana_nicky"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+                        <a href="https://www.instagram.com/hisana_nicky/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        <a href="http://www.twitter.com/HisanaMuhammed"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="https://www.linkedin.com/in/hisana-muhammed-a92a60221"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ****** Footer Area End ****** -->
+{% comment %} </div> {% endcomment %}
+<!-- /.wrapper end -->
+

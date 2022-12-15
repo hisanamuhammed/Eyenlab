@@ -1,0 +1,106 @@
+{% load static %}
+
+    <div id="wrapper">
+        <!-- ****** Header Area Start ****** -->
+        <header class="header_area" >
+            {% comment %} Ajax for search {% endcomment %}
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+            <div class="main_header_area h-100">
+                <div class="container h-100 mb-2">
+                    <div class="row h-100">
+                        <div class="col-12 d-md-flex justify-content-between h-100">
+                            <div class="top_logo img-fluid">
+                                <a href="{% url 'home' %}"><img src="{% static 'img/core-img/logo3.png' %}" alt=""></a>
+                            </div>
+                             <!-- Search -->
+                             <div class="d-flex mb-3 justify-content-end">
+                                <form action="{% url 'search' %}" class="search" method="GET">
+                                  {% csrf_token %} 
+                                  <div class="input-group w-100">
+                                    <input type="text" class="form-control" id="tags" style="width: 60%" placeholder="Search" name="keyword" />
+                                    <div class="input-group-append">
+                                      <button class="btn" type="submit">
+                                        <i class="fa fa-search"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </form>
+                                    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+                                    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+                                    <script>
+                                    $( function() {
+                                        var availableTags = [
+                                        "ActionScript",
+                                        "AppleScript",
+                                        "Asp",
+                                        "BASIC",
+                                        "C",
+                                        "C++",
+                                        "Clojure",
+                                        "COBOL",
+                                        "ColdFusion",
+                                        "Erlang",
+                                        "Fortran",
+                                        "Groovy",
+                                        "Haskell",
+                                        "Java",
+                                        "JavaScript",
+                                        "Lisp",
+                                        "Perl",
+                                        "PHP",
+                                        "Python",
+                                        "Ruby",
+                                        "Scala",
+                                        "Scheme"
+                                        ];
+                                        $( "#tags" ).autocomplete({
+                                        source: availableTags
+                                        });
+                                    } );
+                                    </script>
+                            </div>
+                            <!-- Search end -->
+                            
+                            <!-- Menu Area -->
+                            <div class="main-menu-area">
+                                <nav class="navbar navbar-expand-lg align-items-start">
+                                    <ul class="navbar-nav animated" id="nav">
+                                        <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link " href="{% url 'store' %}" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
+                                        </li>
+                                        {% for category in links %}
+                                            <li class="nav-item"><a class="nav-link" href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+                                        {% comment %} <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span> Sunglass</a></li> {% endcomment %}
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            </div>
+                            
+                            <div class="cart">
+                                <a href="{% url 'cart' %}" id="header-cart-btn" target="_blank"><span class="cart_quantity">{{cart_count}}</span> <i class="ti-bag"></i> Your Bag </a>
+                            </div>
+
+                            <!-- Login -->
+                            {% if user.id is None %}
+                            <div class="help-line">
+                                <a href='{% url 'signin' %}'><i class="bi bi-person"></i>Login</a>
+                            </div>
+                            {% else %}
+                            <div class="help-line">
+                                {% if user.is_admin %}
+                                {% comment %} <a href='{% url 'signout' %}'><i class="glyphicon glyphicon-user"></i>Logout</a> {% endcomment %}
+                                <a href='{% url 'manager_dashboard' %}'><i class="bi bi-person"></i>Dashboard</a>
+                                {% else %}
+                                {% comment %} <a href='{% url 'signout' %}'><i class="glyphicon glyphicon-user"></i>Logout</a> {% endcomment %}
+                                <a href='{% url 'dashboard' %}'><i class="bi bi-person"></i>Dashboard</a>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    <!--Navbar ends--> 
