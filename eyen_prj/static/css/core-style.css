@@ -744,7 +744,7 @@ img {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 33.333333%;
     flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+    max-width: 100%;
     padding: 40px 15px;
     background-color: #b8b8b8;
     text-align: center;
