@@ -70,8 +70,9 @@
                     <!-- Single gallery Item Start -->
                     <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay="0.2s">
                         <!-- Product Image --> 
-                        <div class="product-img"> <img src="{{ product.images.url }}" alt="">
-                            <a href="" class="img-wrap"> </a>
+                        <div class="product-img" style="width:100%; height:350px;"> 
+                            <img class="img-wrap" src="{{ product.images.url }}" style="width:100%; height:350px;" alt="">
+                            {% comment %} <a href="" class="img-wrap"> </a> {% endcomment %}
                             <div class="product-quicview">
                                 <a href="{{ product.get_url }}" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
                             </div>
@@ -81,6 +82,7 @@
                             <h4 class="product-price">₹ {{ product.price }} </h4>
                             <p>{{ product.product_name }}</p>
                             <!-- Add to Cart -->
+            
                             {% if single_product.stock <= 0 %}
                                 <h5 class="text-danger">Out of stock</h5>
                             {% else %}
