@@ -66,14 +66,14 @@
 
             <div class="container">
                 <div class="row karl-new-arrivals">
-                    {% for product in products %}
+                    {% comment %} {% for product in products %}
                     <!-- Single gallery Item Start -->
                     <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay="0.2s">
                         <!-- Product Image --> 
                         <div class="product-img fluid">
                             <img src="{{ product.images.url }}" alt="image is loading" style="width:100%">
                             {% comment %} <a href="" class="img-wrap"> </a> {% endcomment %}
-                            <div class="product-quicview">
+                            {% comment %} <div class="product-quicview">
                                 <a href="{{ product.get_url }}" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
                             </div>
                         </div>
@@ -91,7 +91,28 @@
 
                         </div>   
                     </div>
+                    {% endfor %} {% endcomment %}
+
+                    {% for p in products %}
+                    <!-- Single gallery Item -->
+                    <div class="col-12 col-sm-6 col-lg-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
+                        <!-- Product Image --> 
+                        <div class="product-img">
+                            <img src="{{ p.images.url }}" alt="">
+                            <div class="product-quicview">
+                                <a href="{{ p.get_url }}" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                        <!-- Product Description -->
+                        <div class="product-description">                                                                                                                                                                                                                                                                                                                                                                          
+                            <h4 class="product-price">₹ {{ p.price }}</h4>
+                            <p>{{ p.product_name }}</p>
+                            <!-- View details -->
+                                <a href="{{ p.get_url }}" class="add-to-cart-btn">VIEW DETAILS</a>                                             
+                        </div>
+                    </div>
                     {% endfor %}
+                    
                 </div>
             </div>
         </section>
