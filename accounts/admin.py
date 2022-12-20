@@ -5,8 +5,8 @@ from django.utils.html import format_html
 
 
 class AccountAdmin(UserAdmin):
-    list_display = ('first_name','last_name','email','phone_number')
-    list_display_links = ('email','first_name','last_name')
+    list_display = ('first_name','last_name','username','email','phone_number','date_joined', 'is_active')
+    list_display_links = ('email','first_name','last_name','username')
     readonly_fields = ('last_login','date_joined')
     ordering = ('-date_joined',) # - here represents it will show in the descending order
     

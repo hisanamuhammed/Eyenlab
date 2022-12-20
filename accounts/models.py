@@ -38,9 +38,6 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
         
-          
-
-
 
 class Account(AbstractBaseUser):
     first_name=models.CharField(max_length=50)
@@ -48,8 +45,7 @@ class Account(AbstractBaseUser):
     username=models.CharField(max_length=50,unique=True)
     email=models.EmailField(max_length=100,unique=True)
     phone_number=models.CharField(max_length=50)
-    
-    
+       
     #required
     date_joined=models.DateTimeField(auto_now_add=True)
     last_login=models.DateTimeField(auto_now_add=True)
@@ -83,7 +79,6 @@ class UserProfile(models.Model):
     city            = models.CharField( blank=True, max_length=20, null=True)
     state           = models.CharField( blank=True, max_length=20, null=True)
     pin             = models.CharField( blank=True, max_length=20, null=True)
-    
     
     def __str__(self):
         return self.user.first_name

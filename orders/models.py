@@ -54,7 +54,7 @@ class Order(models.Model):
     tax = models.FloatField()
     coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, null=True, blank=True)
     coupon_discount = models.IntegerField(null=True)
-    status = models.CharField(max_length=55, choices=STATUS, default='New')
+    status = models.CharField(max_length=55, choices=STATUS, default='Pending')
     ip = models.CharField(max_length=20, blank=True)
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

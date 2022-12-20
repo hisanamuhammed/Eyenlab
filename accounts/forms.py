@@ -51,15 +51,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('address_1', 'address_2', 'city', 'state', 'pin', 'profile_picture')
-        # widgets = {
-        #     'address_1':forms.TextInput(attrs={'class':'form-control'}),
-        #     'address_2':forms.TextInput(attrs={'class':'form-control'}),
-        #     'city':forms.TextInput(attrs={'class':'form-control'}),
-        #     'state':forms.TextInput(attrs={'class':'form-control'}),
-        #     'pin':forms.TextInput(attrs={'class':'form-control'}),
-        #     # 'profile_picture':forms.TextInput(attrs={'class':'form-control'}),
-        #     }
-    
+       
     def __init__(self, *args, **kwargs):
         super(UserProfileForm , self).__init__(*args, **kwargs)
         for field in self.fields:

@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages,auth
 from django.shortcuts import render,redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required 
 from django.core.paginator import Paginator
@@ -22,9 +21,9 @@ from django.core.mail import EmailMessage
 import requests
 
 from . models import Account , UserProfile
-from .  forms import RegistrationForm, UserForm, UserProfileForm
+from . forms import RegistrationForm, UserForm, UserProfileForm
 from orders.models import Order, OrderProduct
-from store.models import Product, ProductGallery
+
 # Create your views here.
 
 def signup(request):
@@ -217,12 +216,36 @@ def resetPassword(request):
         return render(request,'accounts/resetPassword.html')
 
 # Dashboard
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk = uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
 
-@login_required(login_url = 'login')
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Congratulations! Your account is activated')
+
+        # User Profile Generation
+        user_profile = UserProfile.objects.create(
+            user = user
+        )
+        user_profile.save()
+
+        return redirect('signin')
+    else:
+        messages.error(request, "Invalid Activation Link")
+        return redirect('signup')
+
+
+@login_required(login_url ='signin')
 def dashboard(request):
     orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
     orders_count = orders.count()
-    check = UserProfile.objects.filter(user_id=request.user.id)
+    # check = UserProfile.objects.filter(user_id=request.user.id)
+    # if len(check)>=0:
 
     userprofile = UserProfile.objects.get(user_id=request.user.id)
     context = {
