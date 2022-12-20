@@ -19,12 +19,12 @@ class Product(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     images = models.ImageField(upload_to='photos/products')
 
-    def save(self, *args, **kwargs):
-        img = Image.open(self.images.name)
-        if img.height > 400 or img.width > 400:
-            output_size = (350, 350)
-            img.thumbnail(output_size)
-            img.save(self.images.name)
+    # def save(self, *args, **kwargs):
+    #     img = Image.open(self.images.name)
+    #     if img.height > 400 or img.width > 400:
+    #         output_size = (350, 350)
+    #         img.thumbnail(output_size)
+    #         img.save(self.images.name)
 
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug, self.slug])
