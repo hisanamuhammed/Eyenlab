@@ -102,8 +102,8 @@ ul li {
 }
 
 img {
-    height: -100%;
-    max-width: -10%;
+    height: auto;
+    max-width: 100%;
 }
 
 .background-overlay,
