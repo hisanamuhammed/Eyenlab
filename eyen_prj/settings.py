@@ -88,7 +88,7 @@ AUTH_USER_MODEL = 'accounts.Account' # defining the  custom models
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Eyedb',
+        'NAME': 'eyedb',
         'USER': 'postgres',
         'PASSWORD' : '1234',
         'HOST' : 'localhost',
